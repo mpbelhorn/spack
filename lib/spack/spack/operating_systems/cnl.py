@@ -55,9 +55,13 @@ class Cnl(OperatingSystem):
                 r'(%s)/([\d\.]+[\d])' % cmp_cls.PrgEnv_compiler, output)
             for name, version in matches:
                 v = version
+                craype_dir = os.environ.get('CRAYPE_DIR', '')
+                if craype_dir:
+                    craype_dir = os.path.join(craype_dir, 'bin')
                 comp = cmp_cls(
                     spack.spec.CompilerSpec(name + '@' + v), self,
-                    ['cc', 'CC', 'ftn'], [cmp_cls.PrgEnv, name + '/' + v])
+                    [os.path.join(craype_dir, i) for i in ('cc', 'CC', 'ftn')],
+                    [cmp_cls.PrgEnv, name + '/' + v])
 
                 compilers.append(comp)
 
