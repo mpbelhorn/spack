@@ -1,0 +1,119 @@
+variables:
+  BUILDER: FIXME_REDACTED
+  JOBS: "1"
+
+stages:
+  - verify
+  - staging
+  - deploy
+
+verify:
+  script:
+    - ./.ci/verify-upstream.sh
+  stage: verify
+  tags:
+    - validate
+
+.staging: &staging
+  script:
+    - $BUILDER/builder stage $HOST -j $JOBS
+  stage: staging
+  artifacts:
+    paths:
+      - var/spack/stage/*/*/spack-build.out
+    when: on_failure
+    expire_in: 1 week
+
+.pymod-staging: &pymod-staging
+  script:
+    - module load python && $BUILDER/builder stage $HOST -j $JOBS
+  stage: staging
+  artifacts:
+    paths:
+      - var/spack/stage/*/*/spack-build.out
+    when: on_failure
+    expire_in: 1 week
+
+.deploy: &deploy
+  script:
+    - $BUILDER/builder deploy $HOST -j $JOBS
+  stage: deploy
+
+.pymod-deploy: &pymod-deploy
+  script:
+    - module load python && $BUILDER/builder deploy $HOST -j $JOBS
+  stage: deploy
+
+.titan: &titan
+  variables:
+    HOST: "titan"
+    HOME: REDACTED
+    JOBS: "16"
+  tags:
+    - titan
+
+.eos: &eos
+  variables:
+    HOST: "eos"
+    HOME: REDACTED
+  tags:
+    - eos
+
+.rhea: &rhea
+  variables:
+    HOST: "rhea"
+    HOME: REDACTED
+  tags:
+    - rhea
+
+.dtn: &dtn
+  variables:
+    HOST: "dtn"
+    HOME: REDACTED
+  tags:
+    - dtn
+
+staging:titan:
+  <<: *pymod-staging
+  <<: *titan
+  only:
+    - /^.*\/[^\/]*(olcf|titan)[^\/]*/
+deploy:titan:
+  <<: *pymod-deploy
+  <<: *titan
+  only:
+    - nccs-specific
+
+staging:eos:
+  <<: *pymod-staging
+  <<: *eos
+  only:
+    - /^.*\/[^\/]*(olcf|eos)[^\/]*/
+deploy:eos:
+  <<: *pymod-deploy
+  <<: *eos
+  only:
+    - nccs-specific
+
+staging:rhea:
+  <<: *staging
+  <<: *rhea
+  only:
+    - /^.*\/[^\/]*(olcf|rhea)[^\/]*/
+deploy:rhea:
+  <<: *deploy
+  <<: *rhea
+  only:
+    - nccs-specific
+
+staging:dtn:
+  <<: *staging
+  <<: *dtn
+  only:
+    - /^.*\/[^\/]*(olcf|dtn)[^\/]*/
+deploy:dtn:
+  <<: *deploy
+  <<: *dtn
+  only:
+    - nccs-specific
+

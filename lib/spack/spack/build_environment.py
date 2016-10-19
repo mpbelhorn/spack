@@ -63,7 +63,7 @@ from llnl.util.filesystem import *
 import spack
 from spack.environment import EnvironmentModifications, validate
 from spack.util.environment import *
-from spack.util.executable import Executable, which
+from spack.util.executable import Executable, which, ProcessError
 
 #
 # This can be set by the user to globally disable parallel builds.
@@ -135,7 +135,7 @@ def load_module(mod):
             exec(compile(modulecmd('unload', text[i + 1], output=str,
                                    error=str), '<string>', 'exec'))
     # Load the module now that there are no conflicts
-    load = modulecmd('load', mod, output=str, error=str)
+    load = modulecmd('load', mod, output=str)
     exec(compile(load, '<string>', 'exec'))
 
 
@@ -147,33 +147,65 @@ def get_path_from_module(mod):
     modulecmd = which('modulecmd')
     modulecmd.add_default_arg('python')
 
+    def is_tcl():
+        version = modulecmd('-H', output=str, error=str, ignore_errors=(1,))
+        if 'Lua' in version:
+            return False
+        return True
+
     # Read the module
-    text = modulecmd('show', mod, output=str, error=str).split('\n')
-    # If it lists its package directory, return that
-    for line in text:
-        if line.find(mod.upper() + '_DIR') >= 0:
-            words = line.split()
-            return words[2]
+    if is_tcl():
+        text = modulecmd('show', mod, output=str, error=str).split('\n')
+        # If it lists its package directory, return that
+        for line in text:
+            if line.find(mod.upper() + '_DIR') >= 0:
+                words = line.split()
+                return words[2]
 
-    # If it lists a -rpath instruction, use that
-    for line in text:
-        rpath = line.find('-rpath/')
-        if rpath >= 0:
-            return line[rpath + 6:line.find('/lib')]
+        # If it lists a -rpath instruction, use that
+        for line in text:
+            rpath = line.find('-rpath/')
+            if rpath >= 0:
+                return line[rpath + 6:line.find('/lib')]
 
-    # If it lists a -L instruction, use that
-    for line in text:
-        L = line.find('-L/')
-        if L >= 0:
-            return line[L + 2:line.find('/lib')]
+        # If it lists a -L instruction, use that
+        for line in text:
+            L = line.find('-L/')
+            if L >= 0:
+                return line[L + 2:line.find('/lib')]
 
-    # If it sets the LD_LIBRARY_PATH or CRAY_LD_LIBRARY_PATH, use that
-    for line in text:
-        if line.find('LD_LIBRARY_PATH') >= 0:
-            words = line.split()
-            path = words[2]
-            return path[:path.find('/lib')]
-    # Unable to find module path
+        # If it sets the LD_LIBRARY_PATH or CRAY_LD_LIBRARY_PATH, use that
+        for line in text:
+            if line.find('LD_LIBRARY_PATH') >= 0:
+                words = line.split()
+                path = words[2]
+                return path[:path.find('/lib')]
+        # Unable to find module path
+    else:
+        try:
+            text = modulecmd('show', mod, output=str, error=str).split('\n')
+        except ProcessError:
+            return None
+        for line in text:
+            # If it lists its package directory, return that
+            if line.find(mod.upper() + '_DIR') >= 0:
+                return line.split(',')[1].strip("""()"'""")
+
+            # If it lists a -rpath instruction, use that
+            rpath = line.find('-rpath/')
+            if rpath >= 0:
+                return line[rpath + 6:line.find('/lib')]
+
+            # If it lists a -L instruction, use that
+            L = line.find('-L/')
+            if L >= 0:
+                return line[L + 2:line.find('/lib')]
+
+            # If it sets the LD_LIBRARY_PATH or CRAY_LD_LIBRARY_PATH, use that
+            if line.find('LD_LIBRARY_PATH') >= 0:
+                path = line.split(',')[1].strip("""()"'""")
+                return path[:path.find('/lib')]
+        # Unable to find module path
     return None
 
 

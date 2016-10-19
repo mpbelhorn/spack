@@ -1,0 +1,10 @@
+compilers:
+- compiler:
+    modules: []
+    operating_system: redhat6
+    paths:
+      cc: /usr/bin/gcc
+      cxx: /usr/bin/g++
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
+    spec: gcc@4.4.7

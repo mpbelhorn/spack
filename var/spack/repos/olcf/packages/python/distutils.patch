@@ -1,0 +1,21 @@
+--- a/Lib/distutils/unixccompiler.py	2016-10-28 14:19:58.000000000 -0400
++++ b/Lib/distutils/unixccompiler.py	2016-10-28 14:21:22.000000000 -0400
+@@ -211,7 +211,17 @@
+         return "-L" + dir
+ 
+     def _is_gcc(self, compiler_name):
+-        return "gcc" in compiler_name or "g++" in compiler_name
++        def chkcmd(label, name):
++            return label in name
++
++        def chkenv(label, var):
++            name = os.environ.get(var)
++            return name and chkcmd(label, name)
++
++        return any((chkcmd('gcc', compiler_name),
++                    chkcmd('g++', compiler_name),
++                    chkenv('gcc', 'SPACK_COMPILER_SPEC'),
++                    chkenv('GNU', 'PE_ENV')))
+ 
+     def runtime_library_dir_option(self, dir):
+         # XXX Hackish, at the very least.  See Python bug #445902:

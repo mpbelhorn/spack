@@ -1,0 +1,36 @@
+packages:
+  mpi:
+    modules:
+      mpich@3.2 : cray-mpich
+    buildable: false
+
+  mpich:
+    modules:
+      mpich@3.2 : cray-mpich
+    buildable: false
+
+  openssl:
+    buildable: false
+    version: [system]
+    paths:
+      openssl@system: /usr
+
+  pkg-config:
+    buildable: false
+    version: [system]
+    paths:
+      pkg-config@system: /usr
+
+  cuda:
+    buildable: false
+    modules:
+      cuda@7.5.18 : cudatoolkit
+
+  cray-mpich:
+    buildable: false
+    modules:
+      cray-mpich@7.4.0 : cray-mpich
+
+  all:
+    providers:
+      mpi: [ cray-mpich ]

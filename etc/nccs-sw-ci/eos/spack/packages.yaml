@@ -1,0 +1,33 @@
+packages:
+  autoconf:
+    buildable: false
+    paths:
+      autoconf@2.69%gcc@5.3.0 arch=linux-SuSE11-x86_64: /usr
+  bzip2:
+    buildable: false
+    paths:
+      bzip2@1.0.6%gcc@5.3.0 arch=linux-SuSE11-x86_64: /usr
+  curl:
+    buildable: false
+    paths:
+      curl@7.50.1%gcc@5.3.0 arch=linux-SuSE11-x86_64: /usr
+  m4:
+    buildable: false
+    paths:
+      m4@1.4.17%gcc@5.3.0+sigsegv arch=linux-SuSE11-x86_64: /usr
+  ncurses:
+    buildable: false
+    paths:
+      ncurses@6.0%gcc@5.3.0 arch=linux-SuSE11-x86_64: /usr
+  openssl:
+    buildable: false
+    paths:
+      openssl@1.0.2h%gcc@5.3.0 arch=linux-SuSE11-x86_64: /usr
+  perl:
+    buildable: false
+    paths:
+      perl@5.24.0%gcc@5.3.0+cpanm arch=linux-SuSE11-x86_64: /usr
+  tar:
+    buildable: false
+    paths:
+      tar@1.29%gcc@5.3.0 arch=linux-SuSE11-x86_64: /usr

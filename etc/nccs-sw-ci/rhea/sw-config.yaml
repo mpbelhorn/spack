@@ -1,0 +1,19 @@
+core:
+  options:
+    naming-scheme: '{name}/{version}'
+    compiler: gcc@4.4.7
+    arch: linux-redhat6-x86_64
+  packages:
+    libelf:
+      libelf@0.8.13: ~
+    git:
+      git@2.9.3: ~
+    py-xxdiff:
+      py-xxdiff@4.0.1: ~
+    tmux:
+      tmux@2.2: ~
+    vim:
+      vim@8.0: ~
+    xalt:
+      xalt@0.7.5+openmpi: ~
+

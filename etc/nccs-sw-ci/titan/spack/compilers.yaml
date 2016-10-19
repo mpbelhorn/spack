@@ -1,0 +1,219 @@
+compilers:
+- compiler:
+    operating_system: SuSE11
+    modules: [PrgEnv-gnu]
+    paths:
+      cc: /usr/bin/gcc
+      cxx: /usr/bin/g++
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
+    spec: gcc@4.3.4
+- compiler:
+    modules:
+    - PrgEnv-cray
+    - cce/8.4.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: cce@8.4.0
+- compiler:
+    modules:
+    - PrgEnv-cray
+    - cce/8.4.2
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: cce@8.4.2
+- compiler:
+    modules:
+    - PrgEnv-cray
+    - cce/8.4.6
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: cce@8.4.6
+- compiler:
+    modules:
+    - PrgEnv-cray
+    - cce/8.5.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: cce@8.5.0
+- compiler:
+    modules:
+    - PrgEnv-gnu
+    - gcc/4.8.1
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: gcc@4.8.1
+- compiler:
+    modules:
+    - PrgEnv-gnu
+    - gcc/4.9.3
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: gcc@4.9.3
+- compiler:
+    modules:
+    - PrgEnv-gnu
+    - gcc/5.3.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: gcc@5.3.0
+- compiler:
+    modules:
+    - PrgEnv-gnu
+    - gcc/4.8.2
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: gcc@4.8.2
+- compiler:
+    modules:
+    - PrgEnv-gnu
+    - gcc/5.2.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: gcc@5.2.0
+- compiler:
+    modules:
+    - PrgEnv-intel
+    - intel/13.1.3.192
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: intel@13.1.3.192
+- compiler:
+    modules:
+    - PrgEnv-intel
+    - intel/15.0.2.164
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: intel@15.0.2.164
+- compiler:
+    modules:
+    - PrgEnv-intel
+    - intel/14.0.2.144
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: intel@14.0.2.144
+- compiler:
+    modules:
+    - PrgEnv-intel
+    - intel/16.0.3.210
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: intel@16.0.3.210
+- compiler:
+    modules:
+    - PrgEnv-pgi
+    - pgi/15.10.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: pgi@15.10.0
+- compiler:
+    modules:
+    - PrgEnv-pgi
+    - pgi/16.3.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: pgi@16.3.0
+- compiler:
+    modules:
+    - PrgEnv-pgi
+    - pgi/16.5.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: pgi@16.5.0
+- compiler:
+    modules:
+    - PrgEnv-pgi
+    - pgi/15.7.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: pgi@15.7.0
+- compiler:
+    modules:
+    - PrgEnv-pgi
+    - pgi/16.4.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: pgi@16.4.0
+- compiler:
+    modules:
+    - PrgEnv-pgi
+    - pgi/16.7.0
+    operating_system: CNL
+    paths:
+      cc: /opt/cray/craype/2.5.5/bin/cc
+      cxx: /opt/cray/craype/2.5.5/bin/CC
+      f77: /opt/cray/craype/2.5.5/bin/ftn
+      fc: /opt/cray/craype/2.5.5/bin/ftn
+    spec: pgi@16.7.0

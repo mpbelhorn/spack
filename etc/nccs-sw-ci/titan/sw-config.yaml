@@ -1,0 +1,18 @@
+core:
+  options:
+    naming-scheme: '{name}/{version}'
+    compiler: gcc@5.3.0
+    arch: cray-CNL-istanbul
+  packages:
+    libelf:
+      libelf@0.8.13: ~
+    git:
+      git@2.9.3: ~
+    tmux:
+      tmux@2.2: ~
+    vim:
+      vim@8.0: ~
+    cmake:
+      cmake@3.6.1+ownlibs: ~
+    hoomd-blue:
+      "hoomd-blue@2.1.0%gcc@5.3.0 arch=cray-CNL-istanbul ^cmake%gcc@4.3.4+ownlibs arch=linux-SuSE11-x86_64": ~

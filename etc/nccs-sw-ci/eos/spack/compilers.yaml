@@ -1,0 +1,10 @@
+compilers:
+- compiler:
+    modules: []
+    operating_system: SuSE11
+    paths:
+      cc: /opt/gcc/5.3.0/bin/gcc
+      cxx: /opt/gcc/5.3.0/bin/g++
+      f77: /opt/gcc/5.3.0/bin/gfortran
+      fc: /opt/gcc/5.3.0/bin/gfortran
+    spec: gcc@5.3.0

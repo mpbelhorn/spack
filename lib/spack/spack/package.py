@@ -67,6 +67,7 @@ from spack.util.environment import dump_environment
 from spack.util.executable import ProcessError, which
 from spack.version import *
 from spack import directory_layout
+from spack.config import is_spec_buildable
 
 
 """Allowed URL schemes for spack packages."""
@@ -965,6 +966,10 @@ class Package(object):
         if not self.spec.concrete:
             raise ValueError("Can only install concrete packages: %s."
                              % self.spec.name)
+
+        if not is_spec_buildable(self.spec):
+            tty.msg("%s is not buildable as %s" % (self.name, self.spec))
+            return
 
         # No installation needed if package is external
         if self.spec.external:

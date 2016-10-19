@@ -1,7 +1,7 @@
 import os
 import re
-import spack.config
 import llnl.util.tty as tty
+from spack import build_env_path
 from spack.util.executable import which
 from spack.architecture import Platform, Target, NoPlatformError
 from spack.operating_systems.linux_distro import LinuxDistro
@@ -28,6 +28,9 @@ def _fill_craype_targets_from_modules(targets, modules):
 class Cray(Platform):
     priority = 10
 
+    CRAYPE_DEF_MODS = None
+    CRAYPE_TARGETS = None
+
     def __init__(self):
         ''' Create a Cray system platform.
 
@@ -46,13 +49,10 @@ class Cray(Platform):
             self.add_target(name, Target(name, 'craype-%s' % target))
 
         # Get aliased targets from config or best guess from environment:
-        conf = spack.config.get_config('targets')
         for name in ('front_end', 'back_end'):
             _target = getattr(self, name, None)
             if _target is None:
                 _target = os.environ.get('SPACK_' + name.upper())
-            if _target is None:
-                _target = conf.get(name)
             if _target is None and name == 'back_end':
                 _target = self._default_target_from_env()
             if _target is not None:
@@ -82,7 +82,7 @@ class Cray(Platform):
             similar to linux/standard linker behavior
         """
         env.set('CRAYPE_LINK_TYPE', 'dynamic')
-        cray_wrapper_names = join_path(spack.build_env_path, 'cray')
+        cray_wrapper_names = join_path(build_env_path, 'cray')
         if os.path.isdir(cray_wrapper_names):
             env.prepend_path('PATH', cray_wrapper_names)
             env.prepend_path('SPACK_ENV_PATH', cray_wrapper_names)
@@ -100,7 +100,7 @@ class Cray(Platform):
         '''
         # Based on the incantation:
         # echo "$(env - USER=$USER /bin/bash -l -c 'module list -lt')"
-        if getattr(self, 'default', None) is None:
+        if self.__class__.CRAYPE_DEF_MODS is None:
             env = which('env')
             env.add_default_arg('-')
             # CAUTION - $USER is generally needed in the sub-environment.
@@ -110,7 +110,10 @@ class Cray(Platform):
                          '/bin/bash', '--noprofile', '--norc', '-c',
                          '. /etc/profile; module list -lt',
                          output=str, error=str)
-            self._defmods = _get_modules_in_modulecmd_output(output)
+            self.__class__.CRAYPE_DEF_MODS = _get_modules_in_modulecmd_output(output)
+
+        if getattr(self, 'default', None) is None:
+            self._defmods = self.__class__.CRAYPE_DEF_MODS
             targets = []
             _fill_craype_targets_from_modules(targets, self._defmods)
             self.default = targets[0] if targets else None
@@ -120,11 +123,17 @@ class Cray(Platform):
 
     def _avail_targets(self):
         '''Return a list of available CrayPE CPU targets.'''
-        if getattr(self, '_craype_targets', None) is None:
+        if self.__class__.CRAYPE_TARGETS is None:
+            self.__class__.CRAYPE_TARGETS = []
             module = which('modulecmd', required=True)
             module.add_default_arg('python')
             output = module('avail', '-t', 'craype-', output=str, error=str)
             craype_modules = _get_modules_in_modulecmd_output(output)
-            self._craype_targets = targets = []
-            _fill_craype_targets_from_modules(targets, craype_modules)
+            _fill_craype_targets_from_modules(
+                    self.__class__.CRAYPE_TARGETS,
+                    craype_modules)
+
+        if getattr(self, '_craype_targets', None) is None:
+            self._craype_targets = self.__class__.CRAYPE_TARGETS
         return self._craype_targets
+

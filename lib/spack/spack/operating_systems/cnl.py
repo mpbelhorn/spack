@@ -1,6 +1,7 @@
 import re
 import os
 
+from os.path import join as join_path
 from spack.architecture import OperatingSystem
 from spack.util.executable import *
 import spack.spec
@@ -54,11 +55,18 @@ class Cnl(OperatingSystem):
                 'avail', cmp_cls.PrgEnv_compiler, output=str, error=str)
             matches = re.findall(
                 r'(%s)/([\d\.]+[\d])' % cmp_cls.PrgEnv_compiler, output)
+            craype_dir = os.environ.get('CRAYPE_DIR', '')
+            if craype_dir:
+                compiler_root = join_path(craype_dir, 'bin')
+            else:
+                compiler_root = ''
+            compiler_paths = [join_path(compiler_root, i)
+                              for i in ('cc', 'CC', 'ftn')]
             for name, version in matches:
                 v = version
                 comp = cmp_cls(
                     spack.spec.CompilerSpec(name + '@' + v), self,
-                    ['cc', 'CC', 'ftn'], [cmp_cls.PrgEnv, name + '/' + v])
+                    compiler_paths, [cmp_cls.PrgEnv, name + '/' + v])
 
                 compilers.append(comp)
 
